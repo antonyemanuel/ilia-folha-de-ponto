@@ -1,8 +1,25 @@
 # ilia-folha-de-ponto
 
 ## Descrição
-//TODO Adicione detalhes que ajudarão o próximo desenvolvedor a entender o
-objetivo do projeto
+API para controle de ponto.
+É possível:
+* registrar a batida do ponto 
+* alocar horas em projeto 
+* visualizar o tempo alocado no mês por projeto 
+
+### Banco De Dados
+Esse projeto utiliza o H2 - banco em memória, para facilitar a execução do projeto.
+
+É possível alterar o banco em: application.properties
+
+Esse projeto manipula datas com SQL,então, caso mude o gerenciador fique atendo as queries em:
+* AlocacaoRepository.java
+* RegistroRepository.java
+
+### Endpoints
+* Bater Ponto: /batidas
+* Alocar Horas: /alocacoes
+* Relatório Folha de Ponto: /folhas-de-ponto/{mes}
 
 ## Pré requisitos
 
