@@ -38,13 +38,12 @@ public class FolhaDePontoController {
 	
 	@PostMapping("/alocacoes")
 	public ResponseEntity<AlocacaoDto> alocar(@RequestBody AlocacaoForm alocacaoForm, UriComponentsBuilder uriBuilder) {
-		Alocacao alocacao = alocacaoForm.converter();
-		alocacaoService.save(alocacao);
+		Alocacao alocacao = alocacaoService.criarAlocacao(alocacaoForm);
 		
 		URI uri = uriBuilder.path("/alocacoes/{id}").buildAndExpand(alocacao.getId()).toUri();
 		return ResponseEntity.created(uri).body(new AlocacaoDto(alocacao));		
 	}
-	
+
 	@PostMapping("/batidas")
 	public ResponseEntity<RegistroDto> baterPonto(@RequestBody Momento momento, UriComponentsBuilder uriBuilder) {
 		Registro registro = new Registro(LocalDateTime.parse(momento.getDataHora()));
