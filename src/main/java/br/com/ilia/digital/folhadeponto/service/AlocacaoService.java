@@ -91,7 +91,7 @@ public class AlocacaoService {
 		Duration horasDoDia = horasDoDia(horarios);		
 		long diff = durationTotal.compareTo(horasDoDia);
 		if(diff > 0) {
-			throw new RuntimeException("A Alocação não pode ser realizada porque as horas informadas superam a soma das horas do dia.");
+			throw new RuntimeException("A Alocação não pode ser realizada porque as horas informadas superam a soma das horas alocadas do dia.");
 		}
 		
 	}
