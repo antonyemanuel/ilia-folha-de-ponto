@@ -11,7 +11,12 @@ public class RegistroDto {
 	private List<String> horarios;
 	
 	public RegistroDto(Registro registro, List<String> horarios) {
-		this.dia = registro.getDataHora().format(DateTimeFormatter.ofPattern("yyyy-MM-yyyy"));
+		this.dia = registro.getDataHora().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+		this.horarios = horarios;
+	}
+	
+	public RegistroDto(String dia, List<String> horarios) {
+		this.dia = dia;
 		this.horarios = horarios;
 	}
 
@@ -31,5 +36,4 @@ public class RegistroDto {
 		this.horarios = horarios;
 	}
 
-	
 }

@@ -1,10 +1,7 @@
 package br.com.ilia.digital.folhadeponto.controller;
 
 import java.net.URI;
-import java.time.LocalDateTime;
 import java.util.List;
-
-import javax.websocket.server.PathParam;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -12,8 +9,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -26,6 +21,7 @@ import br.com.ilia.digital.folhadeponto.model.Alocacao;
 import br.com.ilia.digital.folhadeponto.model.Registro;
 import br.com.ilia.digital.folhadeponto.service.AlocacaoService;
 import br.com.ilia.digital.folhadeponto.service.RegistroService;
+import br.com.ilia.digital.folhadeponto.service.RelatorioService;
 
 @RestController
 public class FolhaDePontoController {
@@ -35,6 +31,9 @@ public class FolhaDePontoController {
 	
 	@Autowired
 	private RegistroService registroService;
+	
+	@Autowired
+	private RelatorioService relatorioService;
 	
 	@PostMapping("/alocacoes")
 	public ResponseEntity<AlocacaoDto> alocar(@RequestBody AlocacaoForm alocacaoForm, UriComponentsBuilder uriBuilder) {
@@ -56,10 +55,8 @@ public class FolhaDePontoController {
 
 	@GetMapping("/folhas-de-ponto/{mes}")
 	public ResponseEntity<RelatorioDto> relatorioMes(@PathVariable String mes, UriComponentsBuilder uriBuilder) {
+		RelatorioDto relatorio = relatorioService.gerarRelatorio(mes);
 		
-		List<String> horarios = registroService.getHorariosDoMes(mes);
-		List<AlocacaoDto> alocacoes = alocacaoService.getAlocacoesDto(mes);
-		
-		return ResponseEntity.ok(new RelatorioDto(mes, alocacoes, horarios));		
+		return ResponseEntity.ok(relatorio);
 	}	
 }

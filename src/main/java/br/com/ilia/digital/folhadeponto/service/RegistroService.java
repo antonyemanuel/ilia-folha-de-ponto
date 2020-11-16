@@ -5,6 +5,7 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +43,11 @@ public class RegistroService {
 	public List<String> getHorariosDoMes(String mes){
 		List<LocalDateTime> registrosMes = repository.registrosMes(mes);
 		return registrosMes.stream().map(l-> l.format(DateTimeFormatter.ofPattern("HH:mm:ss"))).collect(Collectors.toList());
+	}
+	
+	public Map<String,List<LocalDateTime>> getHorariosMesAgrupadosPorDia(String mes){
+		List<LocalDateTime> registrosMes = repository.registrosMes(mes);
+		return registrosMes.stream().collect(Collectors.groupingBy(l->l.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))));
 	}
 
 	private void validarRegistros(Registro registro) {

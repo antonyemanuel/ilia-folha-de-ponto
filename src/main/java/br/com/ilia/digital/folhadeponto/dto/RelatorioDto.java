@@ -5,13 +5,13 @@ import java.util.List;
 public class RelatorioDto {
 	
 	public String mes;
-	public List<AlocacaoDto> alocacoes;
-	public List<String> horarios;
+	public List<AlocacaoReport> alocacoes;
+	public List<RegistroDto> registros;
 	
-	public RelatorioDto(String mes, List<AlocacaoDto> alocacoes, List<String> horarios) {
+	public RelatorioDto(String mes, List<AlocacaoReport> alocacoes, List<RegistroDto> registros) {
 		this.mes = mes;
 		this.alocacoes = alocacoes;
-		this.horarios = horarios;
+		this.registros = registros;
 	}
 
 	public String getMes() {
@@ -22,20 +22,20 @@ public class RelatorioDto {
 		this.mes = mes;
 	}
 
-	public List<AlocacaoDto> getAlocacoes() {
+	public List<AlocacaoReport> getAlocacoes() {
 		return alocacoes;
 	}
 
-	public void setAlocacoes(List<AlocacaoDto> alocacoes) {
+	public void setAlocacoes(List<AlocacaoReport> alocacoes) {
 		this.alocacoes = alocacoes;
 	}
 
-	public List<String> getHorarios() {
-		return horarios;
+	public List<RegistroDto> getRegistros() {
+		return registros;
 	}
 
-	public void setHorarios(List<String> horarios) {
-		this.horarios = horarios;
+	public void setRegistros(List<RegistroDto> registros) {
+		this.registros = registros;
 	}
-	
+
 }

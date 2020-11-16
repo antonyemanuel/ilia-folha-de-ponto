@@ -4,6 +4,7 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +43,11 @@ public class AlocacaoService {
 		List<AlocacaoDto> alocacoesDto = alocacoesMes.stream().map(a-> new AlocacaoDto(a)).collect(Collectors.toList());
 		return alocacoesDto;
 	}
+	
+	public Map<String, Duration> getAlocacoesReportAgrupadasDto(String mes){
+		List<Alocacao> alocacoesMes = repository.findByMes(mes);
+		return alocacoesMes.stream().collect(Collectors.toMap(Alocacao::getNomeProjeto, Alocacao::getTempo, Duration::plus));
+	}	
 	
 	private void validarAlocacao(Alocacao alocacao) {
 		List<LocalDateTime> horarios = registroRepository.registrosDia(alocacao.getDia().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
