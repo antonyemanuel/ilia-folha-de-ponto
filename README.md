@@ -12,6 +12,8 @@ Esse projeto utiliza o H2 - banco em memória, para facilitar a execução do pr
 
 É possível alterar o banco em: application.properties
 
+O console do H2 fica acessível em: http://localhost:8080/h2-console/
+
 Esse projeto manipula datas com SQL,então, caso mude o gerenciador fique atendo as queries em:
 * AlocacaoRepository.java
 * RegistroRepository.java
