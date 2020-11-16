@@ -27,16 +27,13 @@ public class AlocacaoService {
 	public Alocacao criarAlocacao(AlocacaoForm alocacaoForm) {
 		Alocacao alocacao = alocacaoForm.converter();
 		
-		List<LocalDateTime> horarios = registroRepository.registrosDia(alocacao.getDia().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-		
-		validarHorasAlocacao(alocacao, horarios);
-		validarTempoTotalDeAlocacoes(alocacao, horarios);
-		
 		save(alocacao);
 		return alocacao;
 	}	
 	
 	public void save(Alocacao alocacao) {
+		validarAlocacao(alocacao);
+		
 		repository.save(alocacao);
 	}
 	
@@ -46,7 +43,14 @@ public class AlocacaoService {
 		return alocacoesDto;
 	}
 	
-	public void validarHorasAlocacao(Alocacao alocacao, List<LocalDateTime> horarios) {
+	private void validarAlocacao(Alocacao alocacao) {
+		List<LocalDateTime> horarios = registroRepository.registrosDia(alocacao.getDia().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+		
+		validarHorasAlocacao(alocacao, horarios);
+		validarTempoTotalDeAlocacoes(alocacao, horarios);
+	}
+	
+	private void validarHorasAlocacao(Alocacao alocacao, List<LocalDateTime> horarios) {
 		Duration horasInformadas = alocacao.getTempo();
 		
 		Duration horasDoDia = horasDoDia(horarios);		
@@ -57,7 +61,7 @@ public class AlocacaoService {
 		}
 	}
 
-	public Duration horasDoDia(List<LocalDateTime> horarios) {
+	private Duration horasDoDia(List<LocalDateTime> horarios) {
 		LocalDateTime inicio = null;
 		LocalDateTime termino = horarios.get(horarios.size()-1);
 		Duration horasDoDia = Duration.ZERO;
@@ -73,7 +77,7 @@ public class AlocacaoService {
 		return horasDoDia;
 	}	
 	
-	public void validarTempoTotalDeAlocacoes(Alocacao alocacao, List<LocalDateTime> horarios) {
+	private void validarTempoTotalDeAlocacoes(Alocacao alocacao, List<LocalDateTime> horarios) {
 		List<Alocacao> alocacoes = repository.findByDia(alocacao.getDia().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
 		Duration durationParcial = alocacoes.stream().map(Alocacao::getTempo).reduce(Duration.ZERO, Duration::plus);
 		Duration durationTotal = durationParcial.plus(alocacao.getTempo());
