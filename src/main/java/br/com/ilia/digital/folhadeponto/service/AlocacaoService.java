@@ -76,7 +76,7 @@ public class AlocacaoService {
 
 	private Duration horasDoDia(List<LocalDateTime> horarios) {
 		LocalDateTime inicio = null;
-		LocalDateTime termino = horarios.get(horarios.size()-1);
+		LocalDateTime termino = null;
 		Duration horasDoDia = Duration.ZERO;
 		
 		for (int i = 0; i < horarios.size(); i++) {
