@@ -46,15 +46,14 @@ public class FolhaDePontoController {
 
 	@PostMapping("/batidas")
 	public ResponseEntity<RegistroDto> baterPonto(@RequestBody Momento momento, UriComponentsBuilder uriBuilder) {
-		Registro registro = new Registro(LocalDateTime.parse(momento.getDataHora()));
-		registroService.save(registro);
+		Registro registro = registroService.criarRegistro(momento);
 		
 		List<String> horarios = registroService.getHorariosDoDia(registro);
 		
 		URI uri = uriBuilder.path("/batidas/{id}").buildAndExpand(registro.getId()).toUri();
 		return ResponseEntity.created(uri).body(new RegistroDto(registro, horarios));		
 	}
-	
+
 	@GetMapping("/folhas-de-ponto/{mes}")
 	public ResponseEntity<RelatorioDto> relatorioMes(@PathVariable String mes, UriComponentsBuilder uriBuilder) {
 		
