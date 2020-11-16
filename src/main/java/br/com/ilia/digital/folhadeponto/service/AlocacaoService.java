@@ -51,9 +51,16 @@ public class AlocacaoService {
 	
 	private void validarAlocacao(Alocacao alocacao) {
 		List<LocalDateTime> horarios = registroRepository.registrosDia(alocacao.getDia().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-		
+
+		validarRegistroDePontoPreExistente(horarios);
 		validarHorasAlocacao(alocacao, horarios);
 		validarTempoTotalDeAlocacoes(alocacao, horarios);
+	}
+	
+	private void validarRegistroDePontoPreExistente(List<LocalDateTime> horarios) {
+		if(horarios.isEmpty()) {
+			throw new RuntimeException("Não existem batidas de ponto para esse dia. É necessário registra-las primeiro.");
+		}
 	}
 	
 	private void validarHorasAlocacao(Alocacao alocacao, List<LocalDateTime> horarios) {

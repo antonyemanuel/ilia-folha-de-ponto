@@ -184,6 +184,20 @@ public class FolhaDePontoControllerIntegrationTest {
 	}
 	
 	@Test
+	void realizarAlocacaoSemRegistroPonto() throws Exception {
+		AlocacaoForm al = new AlocacaoForm();
+		al.setDia("2020-11-16");
+		al.setTempo("PT2H30M10S");
+		al.setNomeProjeto("Folha");
+		String content = this.objectMapper.writeValueAsString(al);
+		this.mockMvc.perform(post("/alocacoes")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(content))
+		.andExpect(status().isBadRequest())
+		.andExpect(content().string("Não existem batidas de ponto para esse dia. É necessário registra-las primeiro."));
+	}
+	
+	@Test
 	void realizarAlocacaoComTempoMaiorQueRegistrado() throws Exception {
 		Momento m = new Momento();
 		m.setDataHora("2020-11-16T08:00:00");
